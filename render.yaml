@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: almighty-portfolio
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SUPABASE_URL
+        value: https://qpweowdbfzliyeanvtwk.supabase.co
+      - key: SUPABASE_SERVICE_KEY
+        value: YOUR_SERVICE_ROLE_KEY_HERE
+      - key: ADMIN_USERNAME
+        value: james
+      - key: ADMIN_EMAIL
+        value: almightywebsolutions@gmail.com
+      - key: ADMIN_PASSWORD_HASH
+        value: REPLACE_WITH_HASH_FROM_generate_hash.py
+      - key: RESET_CODE_HASH
+        value: REPLACE_WITH_SHA256_OF_YOUR_RESET_CODE
+      - key: FRONTEND_ORIGIN
+        value: "*"

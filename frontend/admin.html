@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — Almighty Web Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body class="admin-body">
+
+<!-- ═══════════════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════════════════ -->
+<div id="screen-login" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">Almighty <span>Web</span></div>
+    <h2 class="auth-title">Admin Portal</h2>
+    <p class="auth-sub">Sign in to manage your portfolio</p>
+    <div class="auth-error" id="login-error" style="display:none"></div>
+    <div class="form-group">
+      <label class="field-label">Username</label>
+      <input class="field-input" type="text" id="login-username" placeholder="Enter username" autocomplete="username"/>
+    </div>
+    <div class="form-group" style="margin-top:1rem">
+      <label class="field-label">Password</label>
+      <div class="pw-wrap">
+        <input class="field-input" type="password" id="login-password" placeholder="Enter password"
+          autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+        <button class="pw-toggle" onclick="togglePw('login-password')" type="button" title="Show/hide">👁</button>
+      </div>
+    </div>
+    <button class="btn-auth" onclick="doLogin()" id="login-btn">Sign In →</button>
+    <div class="auth-links">
+      <button class="auth-link-btn" onclick="showScreen('screen-forgot')">Forgot password?</button>
+      <a href="index.html" class="auth-link-btn">← Back to Portfolio</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     FORGOT PASSWORD SCREEN
+════════════════════════════════════════════════════ -->
+<div id="screen-forgot" class="auth-screen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">Almighty <span>Web</span></div>
+    <h2 class="auth-title">Reset Password</h2>
+    <p class="auth-sub">Enter your admin email and secret reset code</p>
+    <div class="auth-error" id="forgot-error" style="display:none"></div>
+    <div class="auth-success" id="forgot-success" style="display:none"></div>
+
+    <div id="forgot-form-wrap">
+      <div class="form-group">
+        <label class="field-label">Admin Email</label>
+        <input class="field-input" type="email" id="forgot-email" placeholder="almightywebsolutions@gmail.com"/>
+      </div>
+      <div class="form-group" style="margin-top:1rem">
+        <label class="field-label">Reset Code <span class="label-hint">(set in Render env: RESET_CODE)</span></label>
+        <div class="pw-wrap">
+          <input class="field-input" type="password" id="forgot-code" placeholder="Enter your secret reset code"
+            onkeydown="if(event.key==='Enter')doForgot()"/>
+          <button class="pw-toggle" onclick="togglePw('forgot-code')" type="button">👁</button>
+        </div>
+      </div>
+      <button class="btn-auth" onclick="doForgot()" id="forgot-btn">Verify & Continue →</button>
+    </div>
+
+    <div class="auth-links">
+      <button class="auth-link-btn" onclick="showScreen('screen-login')">← Back to Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     CHANGE PASSWORD SCREEN
+     (reached from forgot flow OR from admin settings)
+════════════════════════════════════════════════════ -->
+<div id="screen-change-pw" class="auth-screen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">Almighty <span>Web</span></div>
+    <h2 class="auth-title">Change Password</h2>
+    <p class="auth-sub">Choose a strong new password</p>
+    <div class="auth-error"   id="changepw-error"   style="display:none"></div>
+    <div class="auth-success" id="changepw-success" style="display:none"></div>
+
+    <div id="changepw-form-wrap">
+      <div class="form-group">
+        <label class="field-label">New Password <span class="label-hint">(min 8 chars)</span></label>
+        <div class="pw-wrap">
+          <input class="field-input" type="password" id="new-password" placeholder="New password"/>
+          <button class="pw-toggle" onclick="togglePw('new-password')" type="button">👁</button>
+        </div>
+        <div class="pw-strength" id="pw-strength"></div>
+      </div>
+      <div class="form-group" style="margin-top:1rem">
+        <label class="field-label">Confirm New Password</label>
+        <div class="pw-wrap">
+          <input class="field-input" type="password" id="confirm-password" placeholder="Confirm new password"
+            onkeydown="if(event.key==='Enter')doChangePw()"/>
+          <button class="pw-toggle" onclick="togglePw('confirm-password')" type="button">👁</button>
+        </div>
+      </div>
+      <button class="btn-auth" onclick="doChangePw()" id="changepw-btn">Update Password →</button>
+    </div>
+
+    <div class="auth-links" id="changepw-back-links">
+      <button class="auth-link-btn" onclick="showScreen('screen-login')">← Back to Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     ADMIN DASHBOARD
+════════════════════════════════════════════════════ -->
+<div id="admin-dashboard" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">Almighty <span>Web</span></div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-item active" onclick="showView('projects')">📁 Projects</button>
+      <button class="sidebar-item" onclick="showView('add')">➕ Add Project</button>
+      <button class="sidebar-item" onclick="showView('stats')">📊 Statistics</button>
+      <button class="sidebar-item" onclick="showView('settings')">🔒 Change Password</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">👤 james</div>
+      <button class="sidebar-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="admin-topbar-title" id="view-title">Projects</div>
+      <a href="index.html" class="view-site-btn" target="_blank">↗ View Site</a>
+    </div>
+
+    <!-- PROJECTS VIEW -->
+    <div id="view-projects" class="admin-view">
+      <div class="view-toolbar">
+        <div class="toolbar-filters">
+          <select class="field-input sm" id="filter-category" onchange="loadProjects()">
+            <option value="all">All Categories</option>
+          </select>
+          <select class="field-input sm" id="filter-status" onchange="loadProjects()">
+            <option value="all">All Statuses</option>
+            <option value="done">✅ Done</option>
+            <option value="ongoing">🔄 Ongoing</option>
+            <option value="delivered">📦 Delivered</option>
+            <option value="sale">🏷 For Sale</option>
+          </select>
+        </div>
+        <button class="btn-add" onclick="showView('add')">+ Add New</button>
+      </div>
+      <div id="admin-projects-list"></div>
+    </div>
+
+    <!-- ADD / EDIT VIEW -->
+    <div id="view-add" class="admin-view" style="display:none">
+      <div class="form-card">
+        <h3 class="form-title" id="form-title">Add New Project</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="field-label">Project Title *</label>
+            <input class="field-input" id="f-title" placeholder="e.g. Pearl Seafoods Website"/>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Category *</label>
+            <select class="field-input" id="f-category">
+              <option value="Seafood">Seafood Exporter</option>
+              <option value="Events">Event Hall</option>
+              <option value="Clinic">Clinic / Healthcare</option>
+              <option value="Travel">Travel Agency</option>
+              <option value="Photography">Photography Studio</option>
+              <option value="Restaurant">Restaurant / Hotel</option>
+              <option value="Construction">Construction</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="field-label">Description *</label>
+            <textarea class="field-input" id="f-desc" rows="4"
+              placeholder="What features, technologies, and value does this project deliver?"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Status *</label>
+            <select class="field-input" id="f-status">
+              <option value="done">✅ Done</option>
+              <option value="ongoing">🔄 Ongoing</option>
+              <option value="delivered">📦 Delivered</option>
+              <option value="sale">🏷 For Sale</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Year</label>
+            <input class="field-input" id="f-year" placeholder="2026" type="number" min="2020" max="2035"/>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Live URL</label>
+            <input class="field-input" id="f-url" placeholder="https://example.com"/>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Tags <span class="label-hint">(comma separated)</span></label>
+            <input class="field-input" id="f-tags" placeholder="React, WhatsApp, Booking System"/>
+          </div>
+          <div class="form-group">
+            <label class="field-label">Emoji Icon</label>
+            <input class="field-input" id="f-emoji" placeholder="🦐" maxlength="4"/>
+          </div>
+          <div class="form-group full">
+            <label class="field-label">Thumbnail URL <span class="label-hint">(imgbb / Cloudinary link)</span></label>
+            <input class="field-input" id="f-img" placeholder="https://i.ibb.co/your-image.jpg"/>
+          </div>
+        </div>
+        <input type="hidden" id="f-id"/>
+        <div class="form-actions">
+          <button class="btn-save" onclick="saveProject()">💾 Save Project</button>
+          <button class="btn-cancel-form" onclick="cancelForm()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS VIEW -->
+    <div id="view-stats" class="admin-view" style="display:none">
+      <div class="stats-grid">
+        <div class="stat-card total">  <div class="stat-card-num" id="s-total">—</div>     <div class="stat-card-label">Total</div></div>
+        <div class="stat-card done">   <div class="stat-card-num" id="s-done">—</div>      <div class="stat-card-label">Done</div></div>
+        <div class="stat-card ongoing"><div class="stat-card-num" id="s-ongoing">—</div>   <div class="stat-card-label">Ongoing</div></div>
+        <div class="stat-card delivered"><div class="stat-card-num" id="s-delivered">—</div><div class="stat-card-label">Delivered</div></div>
+        <div class="stat-card sale">   <div class="stat-card-num" id="s-sale">—</div>      <div class="stat-card-label">For Sale</div></div>
+      </div>
+      <div class="stat-cats" id="s-cats"></div>
+    </div>
+
+    <!-- SETTINGS / CHANGE PASSWORD VIEW (logged-in flow) -->
+    <div id="view-settings" class="admin-view" style="display:none">
+      <div class="form-card" style="max-width:480px">
+        <h3 class="form-title">🔒 Change Password</h3>
+        <p style="color:var(--g500);font-size:0.88rem;margin-bottom:1.5rem;line-height:1.6">
+          After changing your password a new hash will be displayed.
+          Copy it and update <strong>ADMIN_PASSWORD_HASH</strong> in your Render environment variables.
+        </p>
+        <div class="auth-error"   id="settings-error"   style="display:none"></div>
+        <div class="auth-success" id="settings-success" style="display:none"></div>
+        <div id="settings-form-wrap">
+          <div class="form-group">
+            <label class="field-label">New Password <span class="label-hint">(min 8 chars)</span></label>
+            <div class="pw-wrap">
+              <input class="field-input" type="password" id="set-new-password" placeholder="New password"/>
+              <button class="pw-toggle" onclick="togglePw('set-new-password')" type="button">👁</button>
+            </div>
+            <div class="pw-strength" id="set-pw-strength"></div>
+          </div>
+          <div class="form-group" style="margin-top:1rem">
+            <label class="field-label">Confirm Password</label>
+            <div class="pw-wrap">
+              <input class="field-input" type="password" id="set-confirm-password" placeholder="Confirm new password"/>
+              <button class="pw-toggle" onclick="togglePw('set-confirm-password')" type="button">👁</button>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem">
+            <button class="btn-save" onclick="doSettingsChangePw()">Update Password →</button>
+          </div>
+        </div>
+        <div class="hash-reveal" id="settings-hash-box" style="display:none">
+          <p class="hash-label">New password hash — copy this into Render:</p>
+          <div class="hash-value" id="settings-hash-value"></div>
+          <button class="btn-copy" onclick="copyHash('settings-hash-value')">📋 Copy Hash</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

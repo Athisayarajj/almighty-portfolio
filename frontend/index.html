@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Almighty Web Solutions — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">Almighty <span>Web</span> Solutions</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="admin.html" class="nav-admin-btn">⚙ Admin</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">Available for Projects · Tuticorin, Tamil Nadu</div>
+      <h1>Crafting <strong>digital presence</strong><br>for local businesses</h1>
+      <p class="hero-sub">Web design &amp; development studio helping seafood exporters, event halls, clinics, travel agencies, and photographers across Thoothukudi grow online.</p>
+      <div class="hero-cta">
+        <a href="#works" class="btn-gold">View My Work</a>
+        <a href="https://wa.me/916374399323" target="_blank" class="btn-ghost">💬 WhatsApp</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Projects</div></div>
+        <div class="stat"><div class="stat-num" id="stat-done">—</div><div class="stat-label">Completed</div></div>
+        <div class="stat"><div class="stat-num">MSME</div><div class="stat-label">Registered</div></div>
+      </div>
+    </div>
+    <div class="photo-card" id="about">
+      <div class="photo-frame">
+        <img src="images/james.jpg" alt="James — Almighty Web Solutions"/>
+      </div>
+      <div class="photo-name">James</div>
+      <div class="photo-role">Web Designer &amp; Developer</div>
+      <div class="photo-tags">
+        <span class="photo-tag">HTML/CSS</span><span class="photo-tag">Python</span>
+        <span class="photo-tag">Flask</span><span class="photo-tag">React</span>
+        <span class="photo-tag">WhatsApp CTA</span><span class="photo-tag">IoT</span>
+      </div>
+      <div class="msme-badge">UDYAM-TN-26-0096414</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-gray" id="works">
+  <div class="sec-inner">
+    <span class="sec-eyebrow">Portfolio</span>
+    <h2 class="sec-title">Projects that <em>speak</em> results</h2>
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-cat="all">All</button>
+    </div>
+    <div class="status-filter-bar">
+      <span class="sf-label">Status:</span>
+      <button class="sf-btn active" data-status="all">All</button>
+      <button class="sf-btn" data-status="done">✅ Done</button>
+      <button class="sf-btn" data-status="ongoing">🔄 Ongoing</button>
+      <button class="sf-btn" data-status="delivered">📦 Delivered</button>
+      <button class="sf-btn" data-status="sale">🏷 For Sale</button>
+    </div>
+    <div id="projects-grid"><div class="loading-spinner"></div></div>
+  </div>
+</section>
+
+<section class="sec-light" id="contact">
+  <div class="sec-inner">
+    <div class="contact-grid">
+      <div>
+        <span class="sec-eyebrow">Get In Touch</span>
+        <h2 class="contact-title">Let's build something <em>great</em></h2>
+        <p class="contact-sub">Have a business that needs an online presence? I work with local businesses across Tuticorin to create websites that convert visitors into customers.</p>
+        <div class="contact-items">
+          <div class="contact-item"><div class="c-icon">📞</div><a href="tel:+916374399323">+91 6374399323</a></div>
+          <div class="contact-item"><div class="c-icon">✉</div><a href="mailto:almightywebsolutions@gmail.com">almightywebsolutions@gmail.com</a></div>
+          <div class="contact-item"><div class="c-icon">📍</div><span>Udangudi, Tuticorin – 638702, Tamil Nadu</span></div>
+        </div>
+      </div>
+      <div class="cta-box">
+        <h3>Ready to go online?</h3>
+        <p>Send a WhatsApp message and let's discuss your project. Quick response guaranteed.</p>
+        <a href="https://wa.me/916374399323?text=Hi%20James!%20I%20need%20a%20website%20for%20my%20business." target="_blank" class="btn-gold" style="display:inline-block;text-decoration:none">💬 Chat on WhatsApp</a>
+        <div class="cta-meta">UDYAM-TN-26-0096414 · NIC 62012 · MSME Registered</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+<script src="js/config.js"></script>
+<script src="js/portfolio.js"></script>
+</body>
+</html>
